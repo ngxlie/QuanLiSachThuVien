@@ -1,5 +1,6 @@
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class BTTuan5 {
 
@@ -7,24 +8,62 @@ public class BTTuan5 {
 
         Scanner scanner = new Scanner(System.in);
 
-        BTTuan3 sachCuoi = null;
+        // BAI 1: MANG
+        int[] soLuong = new int[5];
+        int tong = 0;
+        int max;
 
-        int tongSoLuong = 0;
-        double tongGiaTri = 0;
+        // Nhap so luong 5 cuon sach
+        for (int i = 0; i < 5; i++) {
+
+            do {
+                System.out.print("Nhap so luong sach thu " + (i + 1) + ": ");
+                soLuong[i] = scanner.nextInt();
+
+                if (soLuong[i] < 0) {
+                    System.out.println("So luong phai >= 0!");
+                }
+
+            } while (soLuong[i] < 0);
+        }
+        max = soLuong[0];
+        // Tinh tong va tim so lon nhat
+        for (int i = 0; i < 5; i++) {
+
+            tong += soLuong[i];
+
+            if (soLuong[i] > max) {
+                max = soLuong[i];
+            }
+        }
+        System.out.println("Tong so luong: " + tong);
+        System.out.println("So luong lon nhat: " + max);
+
+        scanner.nextLine();
+
+        // BAI 2:
+        ArrayList<String> danhSachMaSach =
+                new ArrayList<String>();
+
+        // BAI 3: THONG TIN SACH
+        ArrayList<String> danhSachSach =
+                new ArrayList<String>();
 
         int chon;
-        boolean daNhapSach = false;
 
-        // Menu 
+        // BAI 4: MENU
         do {
 
-            System.out.println("\n========== QUAN LY THU VIEN ==========");
-            System.out.println("1. Nhap danh sach sach");
-            System.out.println("2. Xuat sach vua nhap gan nhat");
-            System.out.println("3. Tinh tong so luong va tong gia tri sach");
-            System.out.println("4. Tim sach theo ma");
-            System.out.println("0. Thoat");
-            System.out.println("======================================");
+            System.out.println("\n---------- QUAN LY THU VIEN ---------");
+            System.out.println("1. Them sach");
+            System.out.println("2. Hien thi sach");
+            System.out.println("3. Tim sach");
+            System.out.println("4. Xoa sach");
+            System.out.println("5. Sua sach");
+            System.out.println("6. Tinh tong so luong");
+            System.out.println("7. Tinh tong gia tri");
+            System.out.println("8. Thoat");
+            System.out.println("-----------------------------------");
 
             System.out.print("Nhap lua chon: ");
             chon = scanner.nextInt();
@@ -32,127 +71,179 @@ public class BTTuan5 {
 
             switch (chon) {
 
-                // BAI 1: NHAP N SACH BANG VONG LAP
-                case 1:
+                // 1. THEM SACH
+                case 1: {
 
-                    int n;
+                    BTTuan3 sach = new BTTuan3();
 
-                    do {
-                        System.out.print("Số lượng sách cần nhập: ");
-                        n = scanner.nextInt();
-                        scanner.nextLine();
+                    System.out.println("\n===== NHAP THONG TIN SACH =====");
 
-                        if (n <= 0) {
-                            System.out.println("Số lượng sách phải lớn hơn 0!");
+                    sach.nhap(scanner);
+
+                    if (danhSachMaSach.contains(sach.getMaSach())) {
+
+                        System.out.println("Ma sach da ton tai!");
+
+                    } else {
+
+                        danhSachMaSach.add(sach.getMaSach());
+
+                        danhSachSach.add(taoThongTinSach(sach));
+
+                        System.out.println("Them sach thanh cong!");
+                    }
+
+                    break;
+                }
+
+                // 2. HIEN THI SACH
+                case 2: {
+
+                    if (danhSachSach.size() == 0) {
+
+                        System.out.println("Danh sach sach rong!");
+
+                    } else {
+
+                        for (int i = 0; i < danhSachSach.size(); i++) {
+
+                            System.out.println("\n===== SACH THU " + (i + 1) + " =====");
+
+                            hienThiSach(danhSachSach.get(i));
                         }
+                    }
 
-                    } while (n <= 0);
+                    break;
+                }
 
-                  
-                    tongSoLuong = 0;
-                    tongGiaTri = 0;
+                // 3. TIM SACH
+                case 3: {
 
-                    // Nhap ma sach can tim
-                    System.out.print("Nhap ma sach can tim (Enter de bo qua): ");
+                    System.out.print("Nhap ma sach can tim: ");
                     String maTim = scanner.nextLine();
 
-                    boolean timThay = false;
+                    if (danhSachMaSach.contains(maTim)) {
 
-              
-                    for (int i = 1; i <= n; i++) {
+                        int viTri = danhSachMaSach.indexOf(maTim);
 
-                        System.out.println("\n===== NHAP SACH THU " + i + " =====");
+                        System.out.println("Da tim thay sach!");
 
-                        BTTuan3 sach = new BTTuan3();
+                        hienThiSach(danhSachSach.get(viTri));
 
-                        sach.nhap(scanner);
+                    } else {
 
-                   
-                        sachCuoi = sach;
+                        System.out.println("Khong tim thay sach!");
+                    }
 
-                        // BAI 2: TINH TONG SO LUONG VA TONG GIA TRI
+                    break;
+                }
+
+                // 4. XOA SACH
+                case 4: {
+
+                    System.out.print("Nhap ma sach can xoa: ");
+                    String maXoa = scanner.nextLine();
+
+                    if (danhSachMaSach.contains(maXoa)) {
+
+                        int viTri = danhSachMaSach.indexOf(maXoa);
+
+                        danhSachMaSach.remove(viTri);
+
+                        danhSachSach.remove(viTri);
+
+                        System.out.println("Xoa sach thanh cong!");
+
+                    } else {
+
+                        System.out.println("Khong tim thay sach!");
+                    }
+
+                    break;
+                }
+
+                // 5. SUA SACH
+                case 5: {
+
+                    System.out.print("Nhap ma sach can sua: ");
+                    String maSua = scanner.nextLine();
+
+                    if (danhSachMaSach.contains(maSua)) {
+
+                        int viTri = danhSachMaSach.indexOf(maSua);
+
+                        BTTuan3 sachMoi = new BTTuan3();
+
+                        System.out.println("\nNhap thong tin sach moi:");
+
+                        sachMoi.nhap(scanner);
+
+                        String maMoi = sachMoi.getMaSach();
+
+                        if (!maMoi.equals(maSua)
+                                && danhSachMaSach.contains(maMoi)) {
+
+                            System.out.println("Ma sach moi da ton tai!");
+
+                        } else {
+
+                            danhSachMaSach.set(viTri, maMoi);
+
+                            danhSachSach.set(viTri, taoThongTinSach(sachMoi));
+
+                            System.out.println("Sua sach thanh cong!");
+                        }
+
+                    } else {
+
+                        System.out.println("Khong tim thay sach can sua!");
+                    }
+
+                    break;
+                }
+
+                // 6. TINH TONG SO LUONG
+                case 6: {
+
+                    int tongSoLuong = 0;
+
+                    for (int i = 0; i < danhSachSach.size(); i++) {
+
+                        BTTuan3 sach = chuyenThongTinSach(
+                                danhSachSach.get(i));
+
                         tongSoLuong += sach.getSoLuong();
+                    }
+
+                    System.out.println("Tong so luong sach: " + tongSoLuong);
+
+                    break;
+                }
+
+                // 7. TINH TONG GIA TRI
+                case 7: {
+
+                    double tongGiaTri = 0;
+
+                    for (int i = 0; i < danhSachSach.size(); i++) {
+
+                        BTTuan3 sach = chuyenThongTinSach(
+                                danhSachSach.get(i));
 
                         tongGiaTri += sach.tinhThanhTien();
-
-                        daNhapSach = true;
-
-                        // BAI 4: TIM SACH TRONG LUC NHAP
-                        if (!maTim.equals("")
-                                && sach.getMaSach().equals(maTim)) {
-
-                            System.out.println("\nDa tim thay sach!");
-
-                            sach.xuat();
-
-                            timThay = true;
-                        }
                     }
 
-                    // Thong bao ket qua tim kiem
-                    if (!maTim.equals("") && timThay == false) {
-
-                        System.out.println("Khong tim thay sach co ma: " + maTim);
-                    }
-
-                    System.out.println("\nDa nhap xong danh sach sach!");
+                    System.out.println("Tong gia tri sach: " + tongGiaTri);
 
                     break;
+                }
 
-
-                // XUAT THONG TIN SACH VUA NHAP GAN NHAT
-                case 2:
-
-                    if (daNhapSach == false) {
-
-                        System.out.println("Chua nhap sach!");
-
-                    } else {
-
-                        System.out.println("\n===== THONG TIN SACH =====");
-
-                        sachCuoi.xuat();
-                    }
-
-                    break;
-
-
-                // BAI 2: TINH TONG SO LUONG VA TONG GIA TRI
-                case 3:
-
-                    if (daNhapSach == false) {
-
-                        System.out.println("Chua nhap sach!");
-
-                    } else {
-
-                        System.out.println("\n===== THONG KE SACH =====");
-
-                        System.out.println("Tong so luong sach: " + tongSoLuong);
-
-                        System.out.println("Tong gia tri sach: " + tongGiaTri);
-                    }
-
-                    break;
-
-
-                // BAI 4: TIM SACH THEO MA
-                case 4:
-
-                    System.out.println("Chuc nang tim kiem sach");
-
-                    System.out.println("Chuong trinh chi tim kiem trong luc nhap sach");
-
-                    System.out.println("Vui long chon lai");
-
-                    break;
-
-                case 0:
+                // 8. THOAT
+                case 8:
 
                     System.out.println("Da thoat chuong trinh!");
 
                     break;
-
 
                 default:
 
@@ -161,8 +252,43 @@ public class BTTuan5 {
                     break;
             }
 
-        } while (chon != 0);
+        } while (chon != 8);
 
         scanner.close();
+    }
+
+    public static String taoThongTinSach(BTTuan3 sach) {
+
+        return sach.getMaSach() + "|"
+                + sach.getTenSach() + "|"
+                + sach.getTacGia() + "|"
+                + sach.getNamXuatBan() + "|"
+                + sach.getDonGia() + "|"
+                + sach.getSoLuong() + "|"
+                + sach.getLoaiSach();
+    }
+
+    public static BTTuan3 chuyenThongTinSach(String thongTin) {
+
+        String[] tt = thongTin.split("\\|");
+
+        BTTuan3 sach = new BTTuan3();
+
+        sach.setMaSach(tt[0]);
+        sach.setTenSach(tt[1]);
+        sach.setTacGia(tt[2]);
+        sach.setNamXuatBan(Integer.parseInt(tt[3]));
+        sach.setDonGia(Double.parseDouble(tt[4]));
+        sach.setSoLuong(Integer.parseInt(tt[5]));
+        sach.setLoaiSach(Integer.parseInt(tt[6]));
+
+        return sach;
+    }
+
+    public static void hienThiSach(String thongTin) {
+
+        BTTuan3 sach = chuyenThongTinSach(thongTin);
+
+        sach.xuat();
     }
 }
