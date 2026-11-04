@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class BTTuan3 {
@@ -14,6 +15,7 @@ public class BTTuan3 {
     public BTTuan3() {
     }
 
+    // Getter va Setter
     public void setMaSach(String ms) {
         maSach = ms;
     }
@@ -70,8 +72,8 @@ public class BTTuan3 {
         return loaiSach;
     }
 
-    public void nhap() {
-        Scanner scanner = new Scanner(System.in);
+    // Nhap
+    public void nhap(Scanner scanner) {
 
         System.out.print("Nhap ma sach: ");
         setMaSach(scanner.nextLine());
@@ -87,14 +89,11 @@ public class BTTuan3 {
             System.out.print("Nhap nam xuat ban (1-2026): ");
             setNamXuatBan(scanner.nextInt());
 
-            if (getNamXuatBan() <= 0
-                    || getNamXuatBan() > 2026) {
-                System.out.println(
-                    "Nam xuat ban khong hop le! Nhap lai."
-                );
+            if (getNamXuatBan() <= 0 || getNamXuatBan() > 2026) {
+                System.out.println("Nam xuat ban khong hop le! Nhap lai.");
             }
-        } while (getNamXuatBan() <= 0
-                || getNamXuatBan() > 2026);
+
+        } while (getNamXuatBan() <= 0 || getNamXuatBan() > 2026);
 
         // Kiem tra don gia
         do {
@@ -102,10 +101,9 @@ public class BTTuan3 {
             setDonGia(scanner.nextDouble());
 
             if (getDonGia() <= 0) {
-                System.out.println(
-                    "Don gia phai lon hon 0! Nhap lai."
-                );
+                System.out.println("Don gia phai lon hon 0! Nhap lai.");
             }
+
         } while (getDonGia() <= 0);
 
         // Kiem tra so luong
@@ -114,13 +112,12 @@ public class BTTuan3 {
             setSoLuong(scanner.nextInt());
 
             if (getSoLuong() < 0) {
-                System.out.println(
-                    "So luong phai >= 0! Nhap lai."
-                );
+                System.out.println("So luong phai >= 0! Nhap lai.");
             }
+
         } while (getSoLuong() < 0);
 
-        // Chon loai sach
+        // Chon 
         do {
             System.out.println("1. Sach giao khoa");
             System.out.println("2. Sach tham khao");
@@ -130,62 +127,68 @@ public class BTTuan3 {
             System.out.print("Nhap loai sach: ");
             setLoaiSach(scanner.nextInt());
 
-            if (getLoaiSach() < 1
-                    || getLoaiSach() > 4) {
-                System.out.println(
-                    "Loai sach khong hop le! Nhap lai."
-                );
+            if (getLoaiSach() < 1 || getLoaiSach() > 4) {
+                System.out.println("Loai sach khong hop le! Nhap lai.");
             }
-        } while (getLoaiSach() < 1
-                || getLoaiSach() > 4);
 
-        scanner.close();
+        } while (getLoaiSach() < 1 || getLoaiSach() > 4);
+
+        scanner.nextLine();
     }
 
-    // Kiem tra sach 
+    // Kiem tra sach hop le
     public boolean kiemTraHopLe() {
+
         return getDonGia() > 0
                 && getSoLuong() >= 0
                 && getNamXuatBan() > 0
                 && getNamXuatBan() <= 2026;
     }
 
-    // Bai 2: Phan loai gia sach
+    // Phan loai gia sach
     public String phanLoaiGia() {
+
         if (getDonGia() <= 0) {
             return "Gia sach khong hop le";
+
         } else if (getDonGia() < 50000) {
             return "Sach gia thap";
+
         } else if (getDonGia() <= 100000) {
             return "Sach gia trung binh";
+
         } else if (getDonGia() <= 200000) {
             return "Sach gia cao";
+
         } else {
             return "Sach gia dac biet";
         }
     }
 
-    // Bai 3: Phan loai ton kho
-    public String phanLoaiTonKho() 
-    {
+    // Phan loai ton kho
+    public String phanLoaiTonKho() {
+
         if (getSoLuong() < 0) {
             return "So luong khong hop le";
+
         } else if (getSoLuong() == 0) {
             return "Het sach";
+
         } else if (getSoLuong() <= 5) {
             return "Sap het";
+
         } else if (getSoLuong() <= 20) {
             return "Con it";
+
         } else {
             return "Con nhieu";
         }
     }
+    // Lay loai sach
+    public String layLoaiSach() {
 
-    // Bai 4: Chon loai sach 
-    public String layLoaiSach() 
-    {
-        switch (getLoaiSach()) 
-        {
+        switch (getLoaiSach()) {
+
             case 1:
                 return "Sach giao khoa";
 
@@ -204,24 +207,24 @@ public class BTTuan3 {
     }
 
     // Tinh thanh tien
-    public double tinhThanhTien() 
-    {
+    public double tinhThanhTien() {
+
         return getDonGia() * getSoLuong();
     }
 
-    // Tinh phi van chuyen 
+    // Tinh phi van chuyen
     public double tinhPhiVanChuyen() {
+
         return tinhThanhTien() * 5 / 100;
     }
 
     // Tinh tong tien nhap kho
-    public double tinhTongTienNhap() 
-    {
-        return tinhThanhTien()
-                + tinhPhiVanChuyen();
+    public double tinhTongTienNhap() {
+
+        return tinhThanhTien() + tinhPhiVanChuyen();
     }
 
-    // Xuat thong tin sach
+    // Xuat 
     public void xuat() {
 
         System.out.println("Ma sach: " + getMaSach());
@@ -232,7 +235,6 @@ public class BTTuan3 {
         System.out.println("So luong: " + getSoLuong());
         System.out.println("Loai sach: " + layLoaiSach());
 
-
         if (kiemTraHopLe()) {
             System.out.println("Sach hop le");
         } else {
@@ -242,19 +244,27 @@ public class BTTuan3 {
         System.out.println("Phan loai gia: " + phanLoaiGia());
         System.out.println("Phan loai ton kho: " + phanLoaiTonKho());
 
-        System.out.println("\nTinh tien");
+        System.out.println("\nTINH TIEN");
+
         System.out.println("Thanh tien: " + tinhThanhTien());
         System.out.println("Phi van chuyen: " + tinhPhiVanChuyen());
         System.out.println("Tong tien nhap: " + tinhTongTienNhap());
     }
 
-    // Ham main
     public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
         BTTuan3 sach = new BTTuan3();
 
-        System.out.println("Nhap thong tin quan li sach:");
+        System.out.println("NHAP THONG TIN SACH");
 
-        sach.nhap();
+        sach.nhap(scanner);
+
+        System.out.println("\nTHONG TIN SACH VUA NHAP");
+
         sach.xuat();
+
+        scanner.close();
     }
 }
