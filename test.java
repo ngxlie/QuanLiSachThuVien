@@ -12,8 +12,10 @@ public class test {
         danhSachSach.add(s1);
         danhSachSach.add(s2);
         danhSachSach.add(s3);
+        // 4. Kiem tra du lieu khong hop le
+        s2.setSoLuong(-5);
+        s2.setNamXuatBan(3000);
         //hien thi dnah sach
-        System.out.println("Danh sach sach: ");
         for(int i= 0; i <danhSachSach.size(); i ++){
             danhSachSach.get(i).hienThiThongTin();
 
